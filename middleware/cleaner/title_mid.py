@@ -1,4 +1,4 @@
-from core.base.middleware.mid_string_clean import StringMiddleware
+from core.base.middleware.mid_string.mid_string_clean import StringMiddleware
 
 # 清洗标题内容 如抖音包含标签的删除标签， 若删完标签后标题为空，则不要对应视频
 class TitleMiddleware(StringMiddleware):

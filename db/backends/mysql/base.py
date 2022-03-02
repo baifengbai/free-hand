@@ -13,8 +13,8 @@ class BaseDatabase:
         settings_dict = self.settings_dict
         if(settings_dict['USER']):
             kwargs['user']  = settings_dict['USER']
-        if(settings_dict['NAME']):
-            kwargs['database'] = settings_dict['NAME']
+        if(settings_dict['DBNAME']):
+            kwargs['database'] = settings_dict['DBNAME']
         if(settings_dict['PASSWORD']):
             kwargs['password'] = settings_dict['PASSWORD']
         if( settings_dict['HOST'].startswith('/')):

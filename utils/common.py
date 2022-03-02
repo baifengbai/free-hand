@@ -2,10 +2,11 @@
     一些常用的方法
 """
 import time
-import hashlib, base64
 from urllib import parse
 import re
-import os, shutil
+import os, shutil, hashlib, base64
+import cv2
+import numpy as np
 
 __all__ = [
     'Contraler_Time', 'Encode', 'IsCheck_uchar', 'Contraler_Dir'
@@ -140,7 +141,7 @@ class IsCheck_uchar:
 
 
 # 目录处理类
-class Contraler_Dir:
+class ContralerDir:
     """
         文件及目录处理相关的基类和方法
     """
@@ -177,3 +178,114 @@ class Contraler_Dir:
     def renameFile(imgSrc, imgDst):
         """图片重命名"""
         os.rename(imgSrc, imgDst)
+
+
+
+
+
+'''
+    针对图片的基础操作
+'''
+class Contraler_Img:
+    @staticmethod
+    def get_imgHeight(img_path):
+        """获取图片的高度"""
+        img = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), -1)
+        h = img.shape[0]
+        return h
+
+    @staticmethod
+    def cutting_single_img(img_path, cutBottomHeight):
+        """裁切单张图片 并且覆盖原图片"""
+        img = cv2.imdecode(np.fromfile(img_path, dtype=np.uint8), -1)
+        if (img is not None):
+            h = img.shape[0]
+            w = img.shape[1]
+            cutHeight = h - cutBottomHeight
+            cutWidth = w
+            print('img_shape: ', img.shape, 'cutWidth:cutHeight ', cutWidth, ":", cutHeight)
+            cropped = img[0:cutHeight, 0:cutWidth]  # 裁剪坐标为[y0:y1, x0:x1]
+            try:
+                # cv2.imwrite(imgSrc, cropped) #这种方式保存命名中文会乱码
+                cv2.imencode('.jpg', cropped)[1].tofile(img_path)
+            except:
+                print("图片裁切失败： ", img_path)
+
+    @staticmethod
+    def cutting_imgs_dir(dirpath, cutBottomHeight=55):
+        '''
+            以指定裁切高度裁切指定目录下的所有图片
+        :param dirpath 待处理的目录  路径结尾需要\\结尾
+        :cutBottomHeight 指定裁切高度
+        '''
+        imgName_list = os.listdir(dirpath)
+        for imgName in imgName_list:
+            imgpath = dirpath + imgName
+            Contraler_Img.cutting_single_img(img_path=imgpath, cutBottomHeight=cutBottomHeight)
+
+    @staticmethod
+    def change_imgMD5(imgSrc):
+        """修改单张图片的md5"""
+        with open(imgSrc, 'rb') as f:
+            md5 = hashlib.md5(f.read()).hexdigest()
+        file = open(imgSrc, 'rb').read()
+        with open(imgSrc, 'wb') as new_file:
+            new_file.write(file + bytes('\0', encoding='utf-8'))  # here we are adding a null to change the file content
+            newMD5 = hashlib.md5(open(imgSrc, 'rb').read()).hexdigest()
+        print("修改MD5的文件：", imgSrc,"\n旧MD5: ", md5, " \t 新MD5： ",newMD5)
+
+    @classmethod
+    def change_imgMD5_dir(cls, dirPath):
+        """批量修改目录下图片的MD5"""
+        imgNameList = os.listdir(dirPath)
+        for imgName in imgNameList:
+            imgSrc = dirPath + '\\' + imgName
+            cls.changeMD5(imgSrc)
+
+
+
+
+
+"""
+    通用的一些处理
+"""
+
+
+# 字符串正则处理类
+class Handler_String_ByRe:
+    def extract_StrByRe(self, string, patternStr=r'[[](.*?)[]]'):
+        '''
+        正则匹配字符串获取指定内容(匹配[]包括这的内容)
+        :param string: 待匹配的字符串
+        :param patternStr: 正则表达式模式
+        :return: 列表
+        '''
+        pattern = re.compile(patternStr, re.S)  # 最小匹配
+        return re.findall(pattern, string)
+
+
+
+class Handle_PackageInfo:
+    '''
+        处理报文信息 如 cookie和headers字符串和对象的转换
+    '''
+    def translate_Cookies_Row2Obj(self, cookiesRow):
+        cookieList = cookiesRow.split(";")
+        self.cookies = {}
+        for cookieItem in cookieList:
+            i = cookieItem.strip().split("=")
+            k = i[0]
+            v = i[1]
+            self.cookies[k] = v
+        return self.cookies
+
+    def translate_Headers_Row2Obj(self, headersRow):
+        headerList = headersRow.split('\n')
+        self.headers = {}
+        for headerItem in headerList:
+            i = headerItem.strip().split(":")
+            if (i != ['']):
+                k = i[0]
+                v = i[1]
+                self.headers[k] = v
+        return self.headers

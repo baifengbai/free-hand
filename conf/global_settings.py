@@ -20,7 +20,7 @@ AUTHENTICATION = {
 # Database connection info. If left empty, will default to the dummy backend.
 DATABASES = {
     'USER':'',
-    'NAME':'',
+    'DBNAME':'',
     'PASSWORD':'',
     'HOST': '',
     'PORT': '',

@@ -1,5 +1,5 @@
 """针对字符串的处理 字符串清洗"""
-from mixin import MiddlewareMixin
+from ..mixin import MiddlewareMixin
 from static.universal_word_dict import UNIVERSAL_CLEANWORD_DICT
 import re
 
@@ -108,17 +108,36 @@ class StringMiddleware(MiddlewareMixin):
         else:
             raise AttributeError("请指定正确的方向 left right")
 
-    @staticmethod
-    def clean_webTag(comment):
+    @classmethod
+    def clean_webTag(cls, s):
         '''
         (针对爬取的评论内容设计的方法) 清除评论内容中有标签内容的
         :param comment:
         :return:
         '''
-        s = ''
-        for m in comment.split('>'):
-            s = s + m.split('<')[0]
-        return s
+        res = ''
+        for m in s.split('>'):
+            res = res + m.split('<')[0]
+        return res
+
+    @classmethod
+    def clean_stocks(cls, s, stocksNameCodeList):
+        '''
+        （用于段落字符串清洗）清除字符串中的股票名/股票代码
+        :param s:
+        :param stocksNameCodeList:股票列表
+        :return:
+        '''
+        for item in stocksNameCodeList:
+            li = []
+            li.append(item[0] + "（{}）".format(item[1]))
+            li.append("（{}）".format(item[0]))
+            li.append("（{}）".format(item[1]))
+            li.append(item[0])
+            li.append(item[1])
+            for stock in li:
+                paragraph = paragraph.replace(stock, "")  # 删除股票关键字（包括中文及代买关键字）
+        return paragraph
 
     def process_operation(self):
         """集成操作，子类需要重写该方法"""
