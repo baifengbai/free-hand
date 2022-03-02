@@ -18,7 +18,13 @@ AUTHENTICATION = {
 # CORE             #
 ####################
 # Database connection info. If left empty, will default to the dummy backend.
-DATABASES = {}
+DATABASES = {
+    'USER':'',
+    'NAME':'',
+    'PASSWORD':'',
+    'HOST': '',
+    'PORT': '',
+}
 
 # Classes used to implement DB routing behavior.
 DATABASE_ROUTERS = []
