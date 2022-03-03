@@ -1,4 +1,4 @@
-# auto_datahandler
+# freehand
     数据（段落、评论、图片、视频）的自动化处理  在旧项目packageDIY的基础上进行代码的简化和整合
     1、 需求说明
         1. 涉及的数据类型： 关键词段落、关联词段落、缩略图、内容图、评论、财经文章
@@ -293,5 +293,12 @@
             execute_command 命令执行语句
             task            任务类型            spider/poster
             origin          源站点名 便于分类
-            
-            
+
+## 五、版本
+    freehand 版本主要有三大版本：
+        最初版本        基本操作流程               packageDIY
+        第二版本    基于packageDIY的第一次架构      auto_handler
+        第三版本    基于auto_handler的第二次架构    freehand
+    当前处在第三版本 为架构比较合理的版本 历史版本已设私密
+    查看历史版本或是技术交流请联系 18898670632
+      

@@ -139,6 +139,13 @@ class StringMiddleware(MiddlewareMixin):
                 paragraph = paragraph.replace(stock, "")  # 删除股票关键字（包括中文及代买关键字）
         return paragraph
 
-    def process_operation(self):
-        """集成操作，子类需要重写该方法"""
-        pass
+    def process_default(self, s:str):
+        """针对字符串通用清洗操作 统一前奏操作"""
+        # 1 清空白
+        s = self.clean_space(s)
+        # 2 清括号内容
+        s = self.clean_content_brackets(s, delAll=True)
+        # 3 清序号
+        for k in ['xuhao1', 'xuhao2', 'xuhao3']:
+            s = self.clean_headnum(s, k)
+        return s

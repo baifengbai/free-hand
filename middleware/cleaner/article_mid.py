@@ -3,14 +3,13 @@ from . import paragraph_mid
 
 class ArticleMiddleware(StringMiddleware):
     """
-            文章内容 清洗需求
-                1 只保留p标签和img标签
-                2 清掉所有样式属性 img保留src
-        """
+    文章内容 清洗需求
+        1 只保留p标签和img标签
+        2 清掉所有样式属性 img保留src
+    """
     cleanWords_huxiu_lis = [
         '本文不构成', '本文来自', '作者：', '未经允许不得转载', '原文链接', '出品｜', '作者｜', '题图｜', '作者 |', '出品 |', '头图 |', '扫描图末二维码', '虎嗅注'  # 过滤词
-                                                                                                            '（应受访者要求，文中均为化名）',
-        '（via Anna Team）'  # 提取 （via ） 、 （化名）   规则
+        '（应受访者要求，文中均为化名）', '（via Anna Team）'  # 提取 （via ） 、 （化名）   规则
     ]
 
     def __init__(self):
@@ -102,11 +101,16 @@ class ArticleMiddleware(StringMiddleware):
         return res
 
     def process_operation(self, content_ori):
+        """
+        article_mid 这里的方法针对的是 经过拼接完成的 字符串
+        '<p>XXX</p><img src='XXX'>'
+        """
         content = ''
         p_lis = self.split_content(content_ori)
+        para_processer = paragraph_mid.ParagraphMiddleware()
         for p in p_lis:
             if ('http' not in p):
-                content = content + '<p>' + paragraph_mid.ParagraphMiddleware().process_operation(p) + '</p>'
+                content = content + '<p>' + para_processer.process_operation(p) + '</p>'
             else:
                 content = content + '<img src=\'' + p + '\' />'
         return content

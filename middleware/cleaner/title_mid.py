@@ -1,5 +1,8 @@
 from core.base.middleware.mid_string.mid_string_clean import StringMiddleware
 
+"""
+    本title_mid中间件对标题的处理针对的是抖音的标题，暂时还没改进这个mid
+"""
 # 清洗标题内容 如抖音包含标签的删除标签， 若删完标签后标题为空，则不要对应视频
 class TitleMiddleware(StringMiddleware):
     douyin_tags = [
