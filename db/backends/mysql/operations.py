@@ -7,19 +7,20 @@ class OperatorMysql(BaseDatabase):
     def getAllDataFromDB(self, sql):
         try:
             self.cursor.execute(sql)
-            data = self.cursor.fetchall()
-            # 将数据转换成列表
-            result = []
-            for item in data:
-                result.append(
-                    [
-                        item[i] for i in range(len(item))
-                    ]
-                )
-            return result
         except Exception as e:
             print('getAllDataFromDB(sql)方法 出错： ', sql)
             return -1
+        data = self.cursor.fetchall()
+        # 将数据转换成列表
+        result = []
+        for item in data:
+            result.append(
+                [
+                    item[i] for i in range(len(item))
+                ]
+            )
+        return result
+
 
     def getOneDataFromDB(self, sql):
         try:

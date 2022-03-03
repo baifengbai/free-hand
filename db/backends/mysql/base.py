@@ -46,8 +46,8 @@ class BaseDatabase:
             assert '数据库未连接，清调用connect方法连接数据库'
 
     def get_cursor(self):
-        if (self.connection):
-            return self.connection.cursor
+        if(self.connection):
+            return self.connection.cursor()
         else:
             assert '数据库未连接，清调用connect方法连接数据库'
 

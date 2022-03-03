@@ -4,6 +4,7 @@ from ..utils import u_selenium
 from selenium.webdriver import Remote
 from selenium.webdriver.chrome import options
 from selenium.common.exceptions import InvalidArgumentException
+from conf import setting
 
 # Selenium driver多进程调用的类
 class ReuseChrome(Remote):
@@ -27,14 +28,15 @@ class ReuseChrome(Remote):
 # 通过selenium获取指定信息的类
 class BaseSelenium(
     u_selenium.Roll_To_Bottom,
-    u_selenium.Close_Browser,
     u_selenium.Click_Element
 ):
+    DRIVER_PATH = setting.DRIVER_SELENIUM_PATH
     def __init__(self, *driverPath):
         if(driverPath!=()):
             self.browser = self.init_webdriver(chromeDriverPath=driverPath)
 
-    def init_webdriver(self, chromeDriverPath, *toggle_device):
+    @classmethod
+    def init_webdriver(cls, chromeDriverPath=DRIVER_PATH, *toggle_device):
         """
         创建输出webdriver对象 下面的option避免了被检测到是模拟浏览器
         :chromeDriverPath 引擎的路径
@@ -44,7 +46,7 @@ class BaseSelenium(
         option.add_experimental_option('excludeSwitches', ['enable-automation'])
         option.add_argument('--disable-blink-features=AutomationControlled')
         if(toggle_device!=()):
-            option = self.toggle_device(option)
+            option = cls.toggle_device(option)
         browser = webdriver.Chrome(executable_path=chromeDriverPath, options=option)
         return browser
 
@@ -102,7 +104,7 @@ class BaseSelenium(
         # options.add_experimental_option("--auto-open-devtools-for-tabs")
         return options
 
-    def closeBrowser(self, *browser):
+    def close_browser(self, *browser):
         '''
         关闭指定浏览器，若浏览器为None则关闭对象浏览器
         :param browser:
@@ -111,7 +113,7 @@ class BaseSelenium(
         if(browser==()):
             self.browser.close()
         else:
-            browser.close()
+            browser[0].close()
 
 
 

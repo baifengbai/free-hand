@@ -16,6 +16,14 @@ from core.exceptions import ImproperlyConfigured
 # from free_hand.utils.functional import LazyObject, empty
 from utils.functional import LazyObject, empty
 
+###################
+#  这里测试 可删    #
+###################
+import os
+os.environ.setdefault('FREEWORK_SETTINGS_MODULE', 'conf.global_settings')
+###################
+#  这里测试  可删   #
+###################
 
 ENVIRONMENT_VARIABLE = "FREEWORK_SETTINGS_MODULE"
 

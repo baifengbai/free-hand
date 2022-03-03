@@ -1,9 +1,10 @@
+# 浏览器引擎位置 全局通用
+DRIVER_SELENIUM_PATH = r'E:\Projects\webDriver\chrome\chromedriver.exe'
+
 """
 Default FREEHAND settings. Override these with settings in the module pointed to
 by the FREEHAND_SETTINGS_MODULE environment variable.
 """
-
-
 ####################
 # AUTHENTICATION   #
 ####################
@@ -20,10 +21,10 @@ AUTHENTICATION = {
 # Database connection info. If left empty, will default to the dummy backend.
 DATABASES = {
     'USER':'root',
-    'DBNAME':'',
     'PASSWORD':'root',
-    'HOST': '',
-    'PORT': '',
+    'HOST': 'localhost',
+    'PORT': '3306',
+    'DBNAME': 'data_usable_database',
 }
 
 # Classes used to implement DB routing behavior.
@@ -32,24 +33,10 @@ DATABASE_ROUTERS = []
 # List of strings representing installed apps.
 INSTALLED_APPS = []
 
-TEMPLATES = []
 
 # Default file storage mechanism that holds media.
 DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
-# Absolute filesystem path to the directory that will hold user-uploaded files.
-# Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
-
-# URL that handles the media served from MEDIA_ROOT.
-# Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
-
-
-# The numeric mode to assign to newly-created directories, when uploading files.
-# The value should be a mode as you'd pass to os.chmod;
-# see https://docs.python.org/library/os.html#files-and-directories.
-FILE_UPLOAD_DIRECTORY_PERMISSIONS = None
 
 # Default formats to be used when parsing dates from input boxes, in order
 # See all available format string here:
@@ -95,9 +82,8 @@ DATETIME_INPUT_FORMATS = [
 # MIDDLEWARE #
 ##############
 
-# List of middleware to use. Order is important; in the request phase, these
-# middleware will be applied in the order given, and in the response
-# phase the middleware will be applied in reverse order.
+# List of middleware to use. Order is important; these
+# middleware will be applied in the order given
 MIDDLEWARE = []
 
 
