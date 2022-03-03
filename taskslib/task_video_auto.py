@@ -1,5 +1,5 @@
-from globalTools import globalTools
-from spider__.selenium_douyin import Crawler_Douyin
+from utils import globalTools
+from spider.selenium_douyin import Crawler_Douyin
 
 def run(setting):
     """

@@ -289,3 +289,5 @@ class Handle_PackageInfo:
                 v = i[1]
                 self.headers[k] = v
         return self.headers
+
+

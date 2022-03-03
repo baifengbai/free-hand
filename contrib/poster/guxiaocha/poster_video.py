@@ -1,7 +1,7 @@
 import os, time, requests, hashlib
 from requests_toolbelt import MultipartEncoder
 from utils import tools
-from middleware.filter.video_mid import Filter_Video
+from middleware.filter import video_mid
 from io import TextIOWrapper, BytesIO
 from core.base.poster.base import BasePoster
 from middleware.handler.img_handler import classifier
@@ -20,7 +20,8 @@ class Poster_Video(BasePoster):
         self.userName = 'qin'
         self.password = 'qin123456'
         self.curDate = str(tools.getCurDate())
-        self.key = hashlib.md5(('datapool' + self.userName + self.password + self.curDate).encode('utf-8')).hexdigest()
+        # self.key = hashlib.md5(('datapool' + self.userName + self.password + self.curDate).encode('utf-8')).hexdigest()
+        self.key = hashlib.md5(('guxiaocha' + self.curDate).encode('utf-8')).hexdigest()
         self.coverSavedPath = coverSavedPath
 
     # 获取目录下所有文件的路径列表
@@ -53,11 +54,11 @@ class Poster_Video(BasePoster):
         f5 = TextIOWrapper(f4)
         return f5
 
-    def post_videoSingle(self, videoName, title):
+    def post_videoSingle(self, videoName, title, stock_code, stock_name):
         coverSavedPath = self.coverSavedPath
         videoPath = self.videoDirPath + videoName
         print("处理的路径： ", videoPath)
-        imgfil = Filter_Video(dirOriPath=self.videoDirPath)
+        imgfil = video_mid.Filter_Video(dirOriPath=self.videoDirPath)
         # imgf = self.translateFrom_Ndarray2TIWrapper(imgfil.getCoverImg(videoPath, coverSavedPath))  # 该获取截图的方法无效——无法上传
         # 判断是否满足条件
         if (imgfil.checkIfTimeLength(videoPath)):
@@ -75,11 +76,11 @@ class Poster_Video(BasePoster):
             # 这里传文件的时候用绝对路径传，不然传了之后显示不了
             formData = ({
                 "key": self.key,
-                "account": self.userName,
-                "password": self.password,
                 'title': tools.cleanTitle(title),
                 'img': ('cover.jpg', imgf, "image/jpeg"),
-                'video': (videoName, videof)
+                'video': (videoName, videof),
+                'stock_code': stock_code,
+                'stock_name': stock_name
             })
             m = MultipartEncoder(formData)
             headers2 = {

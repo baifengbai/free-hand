@@ -1,11 +1,11 @@
 import time
-from basement__.ContralSelenium import Base_Selenium
-from basement__.Download import Downloader
+from contrib.selenium.controler_selenium import BaseSelenium
+from core.base.download.base import BaseDownloader
 from .slidercheck_douyin import SliderChecker_Douyin
 from selenium.webdriver.common.action_chains import ActionChains
 
 
-class DouyinCrack(Base_Selenium):
+class DouyinCrack(BaseSelenium):
     '''
         可以根据参数driver的不同针对不同driver做的验证码破解
         但这里的方案是通过破解滑块验证来获取有效cookies，之后再通过接口获取数据
@@ -13,11 +13,11 @@ class DouyinCrack(Base_Selenium):
     def __init__(self, *driverPath, captchaDstDirPath):
         if(driverPath!=()):
             # 显示继承父类
-            Base_Selenium.__init__(self, driverPath)
-            self.downloader = Downloader()  # 资源下载器
+            BaseSelenium.__init__(self, driverPath)
+            self.downloader = BaseDownloader()  # 资源下载器
             self.captchaDstDirPath = captchaDstDirPath
         else:
-            self.downloader = Downloader()  # 资源下载器
+            self.downloader = BaseDownloader()  # 资源下载器
             self.captchaDstDirPath = captchaDstDirPath
 
 

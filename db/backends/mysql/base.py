@@ -56,3 +56,12 @@ class BaseDatabase:
             self.connection.close()
         except Exception as e:
             assert '数据库关闭失败'
+
+    def closeDb(self):
+        try:
+            self.cursor.close()
+            self.conn.close()
+            return "数据库 ", self.databaseName, " 关闭成功"
+        except Exception as e:
+            print("数据库 ", self.databaseName, " 关闭失败")
+            return -1

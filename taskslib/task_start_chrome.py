@@ -1,11 +1,11 @@
-from basement__.ContralSelenium import Base_Selenium
-from basement__.ContralerDatabase import Contraler_Database
-from basement__ import Timer
-from basement__.ContralSelenium import ReuseChrome
+from core.base.selenium.base import BaseSelenium
+from db.backends.mysql.operations import OperatorMysql
+from core.timer import base
+from core.base.selenium.base import ReuseChrome
 import time
 
 def start_chrome(chromeDriverPath):
-    c = Base_Selenium()
+    c = BaseSelenium()
     driver = c.init_webdriver(chromeDriverPath=chromeDriverPath)
     executor = driver.command_executor._url
     session_id = driver.session_id
@@ -16,10 +16,17 @@ def start_chrome(chromeDriverPath):
         "session_id": session_id
     }
 
-class C(Timer.Base_Timer_0):
+class C(base.Base_Timer_0):
     def task(self):
         self.setting = self.timerConfig
-        dbOperator = Contraler_Database(databaseName='data_usable_database')
+        param = {
+            'USER': 'root',
+            'DBNAME': 'data_usable_database',
+            'PASSWORD': 'root',
+            'HOST': '',
+            'PORT': '',
+        }
+        dbOperator = OperatorMysql(param)
         sql_get = 'SELECT * FROM `tb_selenium_info` WHERE `id`=\'1\';'
         driver_info = dbOperator.getOneDataFromDB(sql_get)
         if(driver_info[1]!=''):
@@ -41,10 +48,10 @@ class C(Timer.Base_Timer_0):
                         time.sleep(1)
                         break
                 browser_toutiao.close()
-        c = Base_Selenium()
+        c = BaseSelenium()
         driver = c.init_webdriver(chromeDriverPath=r'E:\Projects\webDriver\chrome\chromedriver.exe')
         driver.get('chrome://version/')
-        dbOperator = Contraler_Database(databaseName='data_usable_database')
+        dbOperator = OperatorMysql(param)
         executor = driver.command_executor._url
         session_id = driver.session_id
         sql_update = 'UPDATE `data_usable_database`.`tb_selenium_info` SET `executor` = \'{}\', `session_id` = \'{}\' WHERE (`id` = \'1\');'.format(

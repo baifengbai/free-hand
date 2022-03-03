@@ -4,10 +4,10 @@
 import datetime, os, time
 import subprocess, threading
 import ctypes, inspect
-from db.backends.mysql.operations import OperatorMysql as dbOp
+from db.backends.mysql.operations import OperatorMysql
 from contrib.manager.article_manager import Article_Manager
 from taskslib.tasks_scrapy.task_articles import Task_Article_Scrapy
-from taskslib import sk_comment_auto, task_video_auto, task_selenium_auto, task_contentImgs_auto, task_thumbnailImgs_auto,task_keyParagraph_auto, task_relativeParagraph_auto, s
+from taskslib import task_comment_auto, task_selenium_auto, task_contentImgs_auto, task_thumbnailImgs_auto,task_keyParagraph_auto, task_relativeParagraph_auto, task_article_auto
 from core.base.utils.u_process import Process_Handler
 
 # 定时任务器基类(设计多个基类)
@@ -93,7 +93,14 @@ class Base_Timer_0:
         :param whatkind 爬虫还是上传器
         """
         while(True):
-            cdb = Contraler_Database('resourcedatabase')
+            param = {
+                'USER': 'root',
+                'DBNAME': 'resourcedatabase',
+                'PASSWORD': 'root',
+                'HOST': '',
+                'PORT': '',
+            }
+            cdb = OperatorMysql(param)
             command = cdb.getOneDataFromDB('SELECT `execute_command` FROM `tb_process_info` WHERE `id` = {};'.format(str(process_recordintb_id)))
             pid = cdb.getOneDataFromDB('SELECT `pid` FROM `tb_process_info` WHERE `id` = 2;')
             if (not Process_Handler.check_if_alive(pid=pid[0])):
@@ -193,7 +200,7 @@ class TaskTimer_AutoDealwithPost(Base_Timer_0):
         elif(self.setting["task_type"]=='articleComment'):
             task_comment_auto.run(setting=self.setting)
         elif(self.setting['task_type']=='articles'):
-            s.run(setting=self.setting)
+            task_article_auto.run(setting=self.setting)
         else:
             print('参数 task_type 出错')
         print("上传数据完成，接下来清空数据库")
@@ -226,7 +233,14 @@ class TimedTask4AutoClearDB(Base_Timer_0):
                     self.setting["databaseName"],
                     self.setting['table_wait2bclean']
                 )
-                dbOperator = dbOp.Contraler_Database(self.setting["databaseName"])
+                param = {
+                    'USER': 'root',
+                    'DBNAME': self.setting["databaseName"],
+                    'PASSWORD': 'root',
+                    'HOST': '',
+                    'PORT': '',
+                }
+                dbOperator = OperatorMysql(param)
                 # 清空表之前先复制的操作已经放在了上传数据完成的后面
                 # dbOperator.cursor.execute(sql4copy2tb_posted)
                 dbOperator.cursor.execute(sql4truncate)
@@ -239,8 +253,14 @@ class TimedTask4AutoClearDB(Base_Timer_0):
                         self.setting["databaseName"],
                         table
                     )
-
-                    dbOperator = dbOp.Contraler_Database(self.setting["databaseName"])
+                    param = {
+                        'USER': 'root',
+                        'DBNAME': self.setting["databaseName"],
+                        'PASSWORD': 'root',
+                        'HOST': '',
+                        'PORT': '',
+                    }
+                    dbOperator = OperatorMysql(param)
                     # 清空表之前先复制的操作已经放在了上传数据完成的后面
                     # dbOperator.cursor.execute(sql4copy2tb_posted)
                     dbOperator.cursor.execute(sql4truncate)
@@ -254,7 +274,14 @@ class TimedTask4AutoClearDB(Base_Timer_0):
                     self.setting["databaseName"],
                     self.setting['table_wait2bclean']
                 )
-                dbOperator = dbOp.Contraler_Database(self.setting["databaseName"])
+                param = {
+                    'USER': 'root',
+                    'DBNAME': self.setting["databaseName"],
+                    'PASSWORD': 'root',
+                    'HOST': '',
+                    'PORT': '',
+                }
+                dbOperator = OperatorMysql(param)
                 dbOperator.cursor.execute(sql4truncate)
                 dbOperator.closeDb()
             else:
@@ -267,7 +294,14 @@ class TimedTask4AutoClearDB(Base_Timer_0):
                         table
                     )
                     # 清空表之前先复制
-                    dbOperator = dbOp.Contraler_Database(self.setting["databaseName"])
+                    param = {
+                        'USER': 'root',
+                        'DBNAME': self.setting["databaseName"],
+                        'PASSWORD': 'root',
+                        'HOST': '',
+                        'PORT': '',
+                    }
+                    dbOperator = OperatorMysql(param)
                     dbOperator.cursor.execute(sql4truncate)
                 dbOperator.closeDb()
 
@@ -281,7 +315,14 @@ class TimedTask4AutoClearDB(Base_Timer_0):
                     self.setting['table_wait2bclean']
                 )
                 # 清空表之前先复制
-                dbOperator = dbOp.Contraler_Database(self.setting["databaseName"])
+                param = {
+                    'USER': 'root',
+                    'DBNAME': self.setting["databaseName"],
+                    'PASSWORD': 'root',
+                    'HOST': '',
+                    'PORT': '',
+                }
+                dbOperator = OperatorMysql(param)
                 dbOperator.cursor.execute(sql4truncate)
                 dbOperator.closeDb()
             else:
@@ -294,7 +335,14 @@ class TimedTask4AutoClearDB(Base_Timer_0):
                         table
                     )
                     # 清空表之前先复制
-                    dbOperator = dbOp.Contraler_Database(self.setting["databaseName"])
+                    param = {
+                        'USER': 'root',
+                        'DBNAME': self.setting["databaseName"],
+                        'PASSWORD': 'root',
+                        'HOST': '',
+                        'PORT': '',
+                    }
+                    dbOperator = OperatorMysql(param)
                     dbOperator.cursor.execute(sql4truncate)
                 dbOperator.closeDb()
 
@@ -307,7 +355,14 @@ class TimedTask4AutoClearDB(Base_Timer_0):
                     self.setting['table_wait2bclean']
                 )
                 # 清空表之前先复制
-                dbOperator = dbOp.Contraler_Database(self.setting["databaseName"])
+                param = {
+                    'USER': 'root',
+                    'DBNAME': self.setting["databaseName"],
+                    'PASSWORD': 'root',
+                    'HOST': '',
+                    'PORT': '',
+                }
+                dbOperator = OperatorMysql(param)
                 dbOperator.cursor.execute(sql4truncate)
                 dbOperator.closeDb()
             else:
@@ -320,6 +375,13 @@ class TimedTask4AutoClearDB(Base_Timer_0):
                         table
                     )
                     # 清空表之前先复制
-                    dbOperator = dbOp.Contraler_Database(self.setting["databaseName"])
+                    param = {
+                        'USER': 'root',
+                        'DBNAME': self.setting["databaseName"],
+                        'PASSWORD': 'root',
+                        'HOST': '',
+                        'PORT': '',
+                    }
+                    dbOperator = OperatorMysql(param)
                     dbOperator.cursor.execute(sql4truncate)
                 dbOperator.closeDb()

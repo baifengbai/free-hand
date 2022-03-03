@@ -1,9 +1,16 @@
-from globalTools import globalTools
-from basement__ import ContralerDatabase as dbOp
-from customFunction__.Poster import poster_question
+from utils import globalTools
+from db.backends.mysql.operations import OperatorMysql
+from contrib.poster import poster_question
 
 def run():
-    dbOperator = dbOp.Contraler_Database(databaseName='data_usable_database')
+    param = {
+        'USER': 'root',
+        'DBNAME': 'data_usable_database',
+        'PASSWORD': 'root',
+        'HOST': '',
+        'PORT': '',
+    }
+    dbOperator = OperatorMysql(param)
     questionList = dbOperator.getAllDataFromDB(sql='SELECT * FROM data_usable_database.tb_zhihu_search_question;')
     QAList = []
     for question in questionList:

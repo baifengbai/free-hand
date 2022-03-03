@@ -1,7 +1,6 @@
-from globalTools import globalTools
-from basement__.ContralerTime import Contraler_Time
-from basement__.ContralerDir import Contraler_Dir
-from spider__ import selenium_douyin,selenium_sougou_weixin, selenium_kuaishou, selenium_douyin_stockA
+from utils import globalTools
+from utils.common import Contraler_Time, Contraler_Dir
+from spider import selenium_douyin,selenium_sougou_weixin, selenium_kuaishou, selenium_douyin_stockA
 
 
 class Sele_Spider_Runner:

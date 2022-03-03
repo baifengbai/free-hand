@@ -2,15 +2,14 @@
     自动化引擎
         内容图 清洗 筛选 并上传
 '''
-from globalTools import globalTools
-from customFunction__.Poster import poster_img as Poster
-from customFunction__.imgref import classifier as Classifier
-from customFunction__.imgref import processing as Processing
-from customFunction__.Filter import filter_image as Filter
-from basement__ import ContralerDatabase as dbOp
-from basement__.ContralerTime import Contraler_Time
-from basement__.ContralerDir import Contraler_Dir
-from basement__.Download import Downloader
+from utils import globalTools
+from contrib.poster import poster_img as Poster
+from middleware.handler.img_handler import classifier as Classifier
+from middleware.handler.img_handler import processing as Processing
+from middleware.filter import image_mid as Filter
+from db.backends.mysql.operations import OperatorMysql
+from utils.common import Contraler_Time, Contraler_Dir
+from core.base.download.base import BaseDownloader
 
 def run(proj_absPath, origin, database, tableNameList, maskFilt=False):
     updateTime = Contraler_Time.getCurDate("%Y%m%d")
@@ -35,7 +34,14 @@ def run(proj_absPath, origin, database, tableNameList, maskFilt=False):
 
     # 从数据库获取图片链接 下载图片
     print("从数据库获取图片链接")
-    dbOperator = dbOp.Contraler_Database(database)
+    param = {
+        'USER': 'root',
+        'DBNAME': database,
+        'PASSWORD': 'root',
+        'HOST': '',
+        'PORT': '',
+    }
+    dbOperator = OperatorMysql(param)
     # 上传过的图片去重
     picList_posted_ = dbOperator.getAllDataFromDB("SELECT `origin_pic_path` FROM `postedurldatabase`.`tb_contentimgs_posted`")
     picList_posted = []
@@ -51,7 +57,7 @@ def run(proj_absPath, origin, database, tableNameList, maskFilt=False):
             if (imgUrl[1] in picList_posted):
                 continue
             imgName = table + "_" + str(imgUrl[0])
-            Downloader.download_img(urlpath=imgUrl[1], imgname=imgName, dstDirPath=setting["imgsCrawledDir"])
+            BaseDownloader.download_img(urlpath=imgUrl[1], imgname=imgName, dstDirPath=setting["imgsCrawledDir"])
             insert_SQL = "INSERT INTO `postedurldatabase`.`tb_contentimgs_posted` (`origin_pic_path`) VALUES (\'{}\');".format(
                 imgUrl[1])
             dbOperator.insertData2DB(insert_SQL)

@@ -1,0 +1,5 @@
+__title__ = 'auto_datahandler'
+__updatetime__ = '20211210'
+__version__ = '0.0.1'
+__author__ = '唐国钦'
+__author_email__ = 'dreamertgq@163.com'

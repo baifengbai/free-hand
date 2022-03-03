@@ -1,7 +1,7 @@
 from utils import globalTools
 from db.backends.mysql.operations import OperatorMysql
-from spider__ import selenium_toutiao
-from customFunction__.Poster import poster_article
+from spider import selenium_toutiao
+from contrib.poster import poster_article
 
 def run(setting):
     """
@@ -24,7 +24,14 @@ def run(setting):
             selenium_toutiao.run()
     elif(setting['crawler_method']=='scrapy'):
         # 1 获取对应数据
-        dbOperator = dbOp.Contraler_Database(databaseName=setting['databaseName'], user=setting['databaseUser'],passwd=setting['databasePasswd'])
+        param = {
+            'USER': 'root',
+            'DBNAME': setting['databaseName'],
+            'PASSWORD': 'root',
+            'HOST': '',
+            'PORT': '',
+        }
+        dbOperator = OperatorMysql(databaseName=setting['databaseName'], user=setting['databaseUser'],passwd=setting['databasePasswd'])
         dataList = dbOperator.getAllDataFromDB(setting['sql'])
         # 2 上传列表
         posterInstance = poster_article.Poster_Article(interface='http://121.40.187.51:8088/api/article_get')

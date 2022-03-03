@@ -2,11 +2,11 @@
     自动化引擎
         视频 筛选 并上传
 '''
-from globalTools import globalTools
-from basement__.Download import Downloader
-from basement__ import ContralerDatabase as dbOp
-from customFunction__.Poster.poster_video import Poster_Video
-from customFunction__.Filter.filter_video import BilibiliFilter
+from utils import globalTools
+from core.base.download.base import BaseDownloader
+from db.backends.mysql.operations import OperatorMysql
+from contrib.poster.poster_video import Poster_Video
+from middleware.filter.video_mid import BilibiliFilter
 from fake_useragent import UserAgent
 
 def check_hasvideoindb0(checkDate_time, titlePostedList_,item):
@@ -36,8 +36,22 @@ def check_videoRepeat(posted_dbOp, videoInfo):
 
 # 爬取源1 bilibili
 def run_bilibili(setting):
-    dbOperator = dbOp.Contraler_Database('videodatabase')    # 获取未上传的数据
-    posted_dbOp = dbOp.Contraler_Database(databaseName='postedurldatabase')     # 连接上传过的的数据的数据库
+    param = {
+        'USER':'root',
+        'DBNAME':'videodatabase',
+        'PASSWORD':'root',
+        'HOST': '',
+        'PORT': '',
+    }
+    dbOperator = OperatorMysql(param)    # 获取未上传的数据
+    param2 = {
+        'USER': 'root',
+        'DBNAME': 'postedurldatabase',
+        'PASSWORD': 'root',
+        'HOST': '',
+        'PORT': '',
+    }
+    posted_dbOp = OperatorMysql(param2)     # 连接上传过的的数据的数据库
     poster = Poster_Video(videoDirPath=setting['videoDirPath'], coverSavedPath=setting['coverSavedPath'], interface='http://121.40.187.51:8088/api/videos_api')
     filter_video = BilibiliFilter()
     # 获取最新爬取下来待上传的视频信息列表
@@ -71,7 +85,7 @@ def run_bilibili(setting):
                 }
                 try:
                     # 视频数据发布时间在当天
-                    Downloader.downVideo(urlpath=item[2], name=str(i), dstDirPath=setting['videoDirPath'], headers_=vid_headers)
+                    BaseDownloader.downVideo(urlpath=item[2], name=str(i), dstDirPath=setting['videoDirPath'], headers_=vid_headers)
                     checkIfSuccess = True
                 except Exception as e:
                     checkIfSuccess = False
