@@ -58,7 +58,62 @@ CREATE TABLE `site_infos` (
 
 
 #######################
-#   数据表操作        #
+#   数据表 创建及操作    #
 #  tb_      #
 #####################
+"""
+评论内容的表
+CREATE TABLE `tb_comment_aigupiao_content` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `comment` longtext,
+  `publishTime` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='存放爱股票文章评论内容'
+"""
 COMMENT_SQL_GET = 'SELECT `comment` FROM commentdatabase.tb_comment_aigupiao_content;'
+
+"""
+关键词段落内容的表
+CREATE TABLE `tb_keyparagraph_anxinsc_content` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `paragraph` longtext,
+  `tag_ori` varchar(60) DEFAULT NULL COMMENT '该段落包含的标签内容',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='存放文章的段落内容'
+"""
+
+"""
+关联词段落
+CREATE TABLE `tb_relativeparagraph_cngold_articlecontent` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `paragraph` longtext,
+  `referArticleUrl` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='金投网的文章内容'
+"""
+
+"""
+内容图片表
+CREATE TABLE `tb_contentimg_zhidx` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `origin_pic_path` longtext,
+  `from_url` longtext,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='https://zhidx.com/ 内容图'
+"""
+
+"""
+缩略图片表
+CREATE TABLE `tb_thumbnail_huxiu` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `dateline` varchar(45) DEFAULT NULL,
+  `formatDate` varchar(45) DEFAULT NULL,
+  `origin_pic_path` longtext,
+  `pic_path` longtext,
+  `title` longtext,
+  `user_name` varchar(45) DEFAULT NULL,
+  `user_uid` varchar(45) DEFAULT NULL,
+  `user_avatar` longtext,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='存放虎嗅网金融地产下的文章信息，包括图片的路径信息'
+"""

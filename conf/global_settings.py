@@ -14,6 +14,23 @@ AUTHENTICATION = {
     'key': ''
 }
 
+
+
+#########################################
+#           数据库表命名的规范             #
+#   tb_ + 类型 + _ + 站点名 + _content    #
+#   如： tb_comment_xueqiu_content       #
+#   涉及主要字段如下：                     #
+#   title                               #
+#   content/comment              #
+#   keyword                      #
+#   rekeyword                    #
+#   question                     #
+#   answer                       #
+#########################################
+
+
+
 #########################################
 #           API_Params                  #
 #   做一个统一的规范                       #
