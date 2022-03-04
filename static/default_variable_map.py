@@ -55,3 +55,10 @@ CREATE TABLE `site_infos` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='关于站点的选择爬取情况\n'
 """
+
+
+#######################
+#   数据表操作        #
+#  tb_      #
+#####################
+COMMENT_SQL_GET = 'SELECT `comment` FROM commentdatabase.tb_comment_aigupiao_content;'

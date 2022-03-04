@@ -14,6 +14,55 @@ AUTHENTICATION = {
     'key': ''
 }
 
+#########################################
+#           API_Params                  #
+#   做一个统一的规范                       #
+#   对于从数据库获取的记录，指定好对应字段位置  #
+#   SQL语句也要写明对应要获取的字段名         #
+#   涉及字段如下：                         #
+#   title                   item[0]     #
+#   content/comment         item[1]     #
+#   keyword                 item[2]     #
+#   rekeyword               item[3]     #
+#   question                item[4]     #
+#   answer                  item[5]     #
+#########################################
+API_PARAMS_DICT = {
+    'default':{
+        "account": AUTHENTICATION['userName'],
+        "password": AUTHENTICATION['password'],
+        "key": ''
+    },
+    'keyParagraph':{
+        "key": '',
+        "account": '',
+        "password": '',
+        'content': '',
+        'keyword': '',
+        'rekeyword': '配资'
+    },
+    'relativeParagraph':{
+        "key": '',
+        "account": '',
+        "password": '',
+        'content': '',
+        'keyword': ''
+    },
+    'articleComment':{
+        "key": '',
+        "account": '',
+        "password": '',
+        'title': '',
+        'content': ''
+    },
+    'question':{
+        "key": '',
+        "account": '',
+        "password": '',
+        'question': '',
+        'answer': ''
+    }
+}
 
 ####################
 # CORE             #
