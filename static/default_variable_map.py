@@ -117,3 +117,49 @@ CREATE TABLE `tb_thumbnail_huxiu` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ROW_FORMAT=DYNAMIC COMMENT='存放虎嗅网金融地产下的文章信息，包括图片的路径信息'
 """
+
+
+"""
+文章内容表
+CREATE TABLE `tb_article_aigupiao_content` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` longtext,
+  `content` longtext,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+"""
+
+"""
+问答表
+CREATE TABLE `tb_zhihu_search_content` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `question_id` int DEFAULT NULL,
+  `answer` longtext,
+  `totle_answer` varchar(45) DEFAULT NULL COMMENT '源站中答案总数',
+  `author_name` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `question_id` (`question_id`),
+  CONSTRAINT `tb_zhihu_search_content_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `tb_zhihu_search_question` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9565 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `tb_zhihu_search_question` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tag` varchar(45) DEFAULT NULL COMMENT '搜索关键词',
+  `question` varchar(45) DEFAULT NULL COMMENT '问题的标题',
+  `article_url` longtext COMMENT '文章链接',
+  `describe` varchar(45) DEFAULT NULL COMMENT '问题的描述',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=317 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='知乎搜索配资下的所有文章信息'
+"""
+
+"""
+股票表
+CREATE TABLE `tb_stocks` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) DEFAULT NULL,
+  `code` varchar(45) DEFAULT NULL,
+  `belonging` varchar(45) DEFAULT NULL,
+  `ishot` varchar(1) DEFAULT NULL COMMENT='是否是热门股票 热门股票有500只 0为非热门 1 为热门',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='股票表'
+"""
