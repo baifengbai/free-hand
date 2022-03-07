@@ -14,7 +14,11 @@ AUTHENTICATION = {
     'key': ''
 }
 
-
+# 待上传的资源的目录路径 注意这里的路径最后加\\的
+RESOURCEPATH = {
+    'thumbnail_dir_path': '',
+    'contentimgs_dit_path': ''
+}
 
 #########################################
 #           数据库表命名的规范             #

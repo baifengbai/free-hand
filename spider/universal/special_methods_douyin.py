@@ -1,6 +1,6 @@
 from time import sleep
 from selenium.webdriver.common.action_chains import ActionChains
-from utils.common import Contraler_Time
+from utils.common import Controler_Time
 
 class Douyin_SpecialMethod:
     @staticmethod
@@ -11,7 +11,7 @@ class Douyin_SpecialMethod:
         :output Boolean
         """
         pubTime = "".join(s.split("-"))
-        if (pubTime != Contraler_Time.getCurDate("%Y%m%d")):
+        if (pubTime != Controler_Time.getCurDate("%Y%m%d")):
             # 判断不是当天的视频则跳过
             return False
         else:

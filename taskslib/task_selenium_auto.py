@@ -1,18 +1,18 @@
 from utils import globalTools
-from utils.common import Contraler_Time, Contraler_Dir
+from utils.common import Controler_Time, Controler_Dir
 from spider import selenium_douyin,selenium_sougou_weixin, selenium_kuaishou, selenium_douyin_stockA
 
 
 class Sele_Spider_Runner:
     @classmethod
     def run_douyin(cls,proj_absPath, crawlUrl_list, origin):
-        updateTime = Contraler_Time.getCurDate("%Y%m%d")
+        updateTime = Controler_Time.getCurDate("%Y%m%d")
         videoDirPath = proj_absPath + '\\assets\\videos\\' + updateTime + '\\' + origin + '\\'
         coverSavedPath = proj_absPath + '\\assets\\videos\\' + updateTime + '\\cover_douyin.jpg'
         captchaPath = proj_absPath + '\\assets\\captcha\\' + updateTime + '\\' + origin + '\\'
         # 判断配置里的目录是否存在，不存在则创建对应目录
-        Contraler_Dir.checkACreateDir(videoDirPath)
-        Contraler_Dir.checkACreateDir(captchaPath)
+        Controler_Dir.checkACreateDir(videoDirPath)
+        Controler_Dir.checkACreateDir(captchaPath)
 
         # 抖音视频的爬取及上传
         spider_douyin = selenium_douyin.Crawler_Douyin(captchaPath=captchaPath, videoDirPath=videoDirPath)
@@ -25,13 +25,13 @@ class Sele_Spider_Runner:
 
     @classmethod
     def run_douyin_guxiaocah(cls, proj_absPath, crawlUrl_list, origin):
-        updateTime = Contraler_Time.getCurDate("%Y%m%d")
+        updateTime = Controler_Time.getCurDate("%Y%m%d")
         videoDirPath = proj_absPath + '\\assets\\videos\\' + updateTime + '\\' + origin + '\\'
         coverSavedPath = proj_absPath + '\\assets\\videos\\' + updateTime + '\\cover_douyin.jpg'
         captchaPath = proj_absPath + '\\assets\\captcha\\' + updateTime + '\\' + origin + '\\'
         # 判断配置里的目录是否存在，不存在则创建对应目录
-        Contraler_Dir.checkACreateDir(videoDirPath)
-        Contraler_Dir.checkACreateDir(captchaPath)
+        Controler_Dir.checkACreateDir(videoDirPath)
+        Controler_Dir.checkACreateDir(captchaPath)
 
         # 抖音视频的爬取及上传
         spider_douyin = selenium_douyin_stockA.Crawler_Douyin(captchaPath=captchaPath, videoDirPath=videoDirPath)

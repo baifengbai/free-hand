@@ -8,12 +8,9 @@ import os, shutil, hashlib, base64
 import cv2
 import numpy as np
 
-__all__ = [
-    'Contraler_Time', 'Encode', 'IsCheck_uchar', 'Contraler_Dir'
-]
 
 # 时间处理类
-class Contraler_Time:
+class Controler_Time:
     """
         时间（时间戳、日期、年月日等）处理相关的基类和方法
     """
@@ -141,7 +138,7 @@ class IsCheck_uchar:
 
 
 # 目录处理类
-class ContralerDir:
+class Controler_Dir:
     """
         文件及目录处理相关的基类和方法
     """
@@ -186,7 +183,7 @@ class ContralerDir:
 '''
     针对图片的基础操作
 '''
-class Contraler_Img:
+class Controler_Img:
     @staticmethod
     def get_imgHeight(img_path):
         """获取图片的高度"""
@@ -221,7 +218,7 @@ class Contraler_Img:
         imgName_list = os.listdir(dirpath)
         for imgName in imgName_list:
             imgpath = dirpath + imgName
-            Contraler_Img.cutting_single_img(img_path=imgpath, cutBottomHeight=cutBottomHeight)
+            Controler_Img.cutting_single_img(img_path=imgpath, cutBottomHeight=cutBottomHeight)
 
     @staticmethod
     def change_imgMD5(imgSrc):

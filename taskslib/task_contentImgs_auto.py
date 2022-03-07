@@ -8,11 +8,11 @@ from middleware.handler.img_handler import classifier as Classifier
 from middleware.handler.img_handler import processing as Processing
 from middleware.filter import image_mid as Filter
 from db.backends.mysql.operations import OperatorMysql
-from utils.common import Contraler_Time, Contraler_Dir
+from utils.common import Controler_Time, Controler_Dir
 from core.base.download.base import BaseDownloader
 
 def run(proj_absPath, origin, database, tableNameList, maskFilt=False):
-    updateTime = Contraler_Time.getCurDate("%Y%m%d")
+    updateTime = Controler_Time.getCurDate("%Y%m%d")
     setting = {
         # 爬取下来的图片的存放路径
         'imgsCrawledDir': proj_absPath + '\\assets\imgsCrawled\\' + updateTime + '\\' + origin + '\\',
@@ -30,7 +30,7 @@ def run(proj_absPath, origin, database, tableNameList, maskFilt=False):
 
     # 判断配置里的目录是否存在，不存在则创建对应目录
     for item in setting.values():
-        Contraler_Dir.checkACreateDir(item)
+        Controler_Dir.checkACreateDir(item)
 
     # 从数据库获取图片链接 下载图片
     print("从数据库获取图片链接")
@@ -92,10 +92,10 @@ def run(proj_absPath, origin, database, tableNameList, maskFilt=False):
 
         # 5 创建图片发送的poster 传送处理完成的图片
         # 传送内容图
-        imgposter0 = Poster.Poster_Imgs(imgDirPath=setting['imgsDirDontHasWaterMask'])
-        imgposter0.updateImgs()
-        imgposter1 = Poster.Poster_Imgs(imgDirPath=setting['imgsDirHasWaterMask'])
-        imgposter1.updateImgs()
+        imgposter0 = Poster.Poster_Imgs_Contentimgs(imgDirPath=setting['imgsDirDontHasWaterMask'])
+        imgposter0.post_auto('内容图')
+        imgposter1 = Poster.Poster_Imgs_Contentimgs(imgDirPath=setting['imgsDirHasWaterMask'])
+        imgposter1.post_auto('内容图')
     else:
         filter = Filter.imgsFilter(
             imgsDontHasWaterMaskDir=setting['imgsDirDontHasWaterMask'],
@@ -113,7 +113,7 @@ def run(proj_absPath, origin, database, tableNameList, maskFilt=False):
 
         # 5 创建图片发送的poster 传送处理完成的图片
         # 传送内容图
-        imgposter0 = Poster.Poster_Imgs(imgDirPath=setting['imgsCleanedDir'])
-        imgposter0.updateImgs()
+        imgposter0 = Poster.Poster_Imgs_Contentimgs(imgDirPath=setting['imgsCleanedDir'])
+        imgposter0.post_auto('内容图')
 
     globalTools.finishTask()

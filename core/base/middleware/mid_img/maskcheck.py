@@ -1,14 +1,14 @@
 import cv2, os
 import numpy as np
-from utils.common import Contraler_Img
-from utils.common import ContralerDir
+from utils.common import Controler_Img
+from utils.common import ControlerDir
 
 '''
     水印识别的类
     识别图片中是否含有指定的模板
 '''
 
-class Base_Maskcheck(Contraler_Img):
+class Base_Maskcheck(Controler_Img):
     @staticmethod
     def method1_cv_reconize(img_gray, template):
         """模板匹配方法1"""
@@ -96,17 +96,17 @@ class Base_Maskcheck(Contraler_Img):
                 hasmask_imgName_list.append(imgName)
                 img_hasmask_dst = dirpath_hasmask + imgName
                 # 复制到对应目录下
-                ContralerDir.Contraler_Dir.copyFile(src=imgpath, dst=img_hasmask_dst)
+                ControlerDir.Controler_Dir.copyFile(src=imgpath, dst=img_hasmask_dst)
                 # 根据水印位置的裁切 对新目录下的水印图片裁切
                 waterMaskY = res["waterMaskLocY"]
-                imgHeight = Contraler_Img.get_imgHeight(imgpath)
+                imgHeight = Controler_Img.get_imgHeight(imgpath)
                 cutBottomHeight = imgHeight - waterMaskY
-                Contraler_Img.cutting_single_img(img_path=img_hasmask_dst, cutBottomHeight=cutBottomHeight)
+                Controler_Img.cutting_single_img(img_path=img_hasmask_dst, cutBottomHeight=cutBottomHeight)
             else:
                 # 匹配不到模板
                 donthasmask_imgName_list.append(imgName)
                 img_donthasmask_dst = dirpath_donthasmask + imgName
                 # 复制到对应目录下
-                ContralerDir.Contraler_Dir.copyFile(src=imgpath, dst=img_donthasmask_dst)
+                ControlerDir.Controler_Dir.copyFile(src=imgpath, dst=img_donthasmask_dst)
 
 

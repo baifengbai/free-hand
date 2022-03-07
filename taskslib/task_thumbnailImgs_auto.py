@@ -8,14 +8,14 @@ from middleware.handler.img_handler import classifier as Classifier
 from middleware.handler.img_handler import processing as Processing
 from middleware.filter import image_mid
 from db.backends.mysql.operations import OperatorMysql
-from utils.common import Contraler_Time, Contraler_Dir
+from utils.common import Controler_Time, Controler_Dir
 from core.base.download.base import BaseDownloader
 
 def run(proj_absPath, origin, database, tableNameList):
     # 将目录下的图片图片传到接口
     # 获取当前目录所在绝对路径
     # proj_absPath = os.path.abspath(os.path.dirname(__file__))
-    updateTime = Contraler_Time.getCurDate("%Y%m%d")
+    updateTime = Controler_Time.getCurDate("%Y%m%d")
     setting = {
         # 爬取下来的图片的存放路径
         'imgsCrawledDir' : proj_absPath + '\\assets\imgsCrawled\\' + updateTime + '\\' + origin + '\\',
@@ -33,7 +33,7 @@ def run(proj_absPath, origin, database, tableNameList):
 
     # 判断配置里的目录是否存在，不存在则创建对应目录
     for item in setting.values():
-        Contraler_Dir.checkACreateDir(item)
+        Controler_Dir.checkACreateDir(item)
 
     # 从数据库获取图片链接 下载图片
     print("从数据库获取图片链接")
@@ -92,6 +92,6 @@ def run(proj_absPath, origin, database, tableNameList):
     print("下面将开始传送")
     # # 4 创建图片发送的poster 传送处理完成的图片
     # 传送缩略图
-    imgposter0 = poster_img.Poster_Imgs(imgDirPath=setting['imgsThumbnailDir'])
-    imgposter0.updateImgsThumbnail()
+    imgposter0 = poster_img.Poster_Imgs_Thumbnails(imgDirPath=setting['imgsThumbnailDir'])
+    imgposter0.post_auto('缩略图')
     globalTools.finishTask()

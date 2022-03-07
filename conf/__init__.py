@@ -8,12 +8,7 @@ import traceback
 import warnings
 from pathlib import Path
 
-# from free_hand import global_settings
 from .import global_settings
-# from free_hand.core.exceptions import ImproperlyConfigured
-from core.exceptions import ImproperlyConfigured
-# from django.utils.deprecation import RemovedInDjango40Warning
-# from free_hand.utils.functional import LazyObject, empty
 from utils.functional import LazyObject, empty
 
 ###################
