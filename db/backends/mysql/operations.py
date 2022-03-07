@@ -51,3 +51,20 @@ class OperatorMysql(BaseDatabase):
             for table in table_name:
                 self.cursor.execute(TRUNCATE_TB_SQL.format(table))
 
+    def check_ifsame_database(self, database, change_db:bool = True):
+        """判断当前连接的数据库是否是指定数据库
+        :param database 指定数据库名
+        :param change_db 若为True 则切换到指定数据库否则只输出判断结果
+            默认为True
+        """
+        if(not change_db):
+            if (database != self.cur_conn_params['database']):
+                return False
+            else:
+                return True
+        else:
+            if (database != self.cur_conn_params['database']):
+                self.cur_conn_params['database'] = database
+                return self.cur_conn_params['database']
+            else:
+                return True
