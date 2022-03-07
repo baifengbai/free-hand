@@ -1,31 +1,40 @@
+from conf import setting
 import pymysql
 
 class BaseDatabase:
-    """数据库连接基类"""
-    def __init__(self, settings_dict):
+    """数据库连接基类 默认连接配置文件中的数据库"""
+    def __init__(self):
         self.connection = None
-        self.settings_dict = settings_dict
-        self.connect()
+        self._cur_conn_params = self.get_connection_params()
+        self.connect(self._cur_conn_params)
         self.cursor = self.get_cursor()
 
+    @property
+    def cur_conn_params(self):
+        """当前数据库连接的参数"""
+        return self._cur_conn_params
+
+    @cur_conn_params.setter
+    def cur_conn_params(self, dic:dict):
+        print('数据库参数改动了,重新连接数据库')
+        self._cur_conn_params = dic
+        self.connect(self._cur_conn_params)
+        self.cursor = self.get_cursor()
+        pass
+
     def get_connection_params(self):
+        """从默认配置中获取参数"""
         kwargs = {}
-        settings_dict = self.settings_dict
-        if(settings_dict['USER']):
-            kwargs['user']  = settings_dict['USER']
-        if(settings_dict['DBNAME']):
-            kwargs['database'] = settings_dict['DBNAME']
-        if(settings_dict['PASSWORD']):
-            kwargs['password'] = settings_dict['PASSWORD']
-        if( settings_dict['HOST'].startswith('/')):
-            kwargs['unix_socket'] = settings_dict['HOST']
-        elif(settings_dict['HOST']):
-            kwargs['host'] = settings_dict['HOST']
-        if(settings_dict['PORT']):
-            kwargs['port'] = int(settings_dict['PORT'])
+        kwargs['user']  = setting.DATABASES['USER']
+        kwargs['database'] = setting.DATABASES['DBNAME']
+        kwargs['password'] = setting.DATABASES['PASSWORD']
+        kwargs['unix_socket'] = setting.DATABASES['HOST']
+        kwargs['host'] = setting.DATABASES['HOST']
+        kwargs['port'] = int(setting.DATABASES['PORT'])
         return kwargs
 
     def get_new_connection(self, params):
+        """创建自定义的数据库连接"""
         conn = pymysql.connect(
             host=params['host'],
             user=params['user'],
@@ -35,9 +44,8 @@ class BaseDatabase:
         )
         return conn
 
-    def connect(self):
-        conn_params = self.get_connection_params()
-        self.connection = self.get_new_connection(conn_params)
+    def connect(self, _cur_conn_params):
+        self.connection = self.get_new_connection(_cur_conn_params)
 
     def get_conn(self):
         if(self.connection):

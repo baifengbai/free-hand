@@ -97,6 +97,11 @@ DATABASES = {
     'DBNAME': 'data_usable_database',
 }
 
+# 内置统一的资源表
+DEFAULT_Table = {
+    '定时器配置管理表': 'tb_timerconfig',
+    '任务线程信息管理表': 'tb_'
+},
 # Classes used to implement DB routing behavior.
 DATABASE_ROUTERS = []
 
@@ -184,6 +189,8 @@ TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 # Apps that don't need to be serialized at test database creation time
 # (only apps with migrations are to start with)
 TEST_NON_SERIALIZED_APPS = []
+
+
 
 
 

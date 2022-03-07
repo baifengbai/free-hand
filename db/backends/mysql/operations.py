@@ -1,4 +1,5 @@
 from .base import BaseDatabase
+from static.default_variable_map import TRUNCATE_TB_SQL
 
 class OperatorMysql(BaseDatabase):
     """
@@ -40,3 +41,13 @@ class OperatorMysql(BaseDatabase):
         except Exception as e:
             print(e, 'sql: ', sql)
             return -1
+
+    def truncate_table(self, table_name):
+        if (type(table_name) == str):
+            # 传入的等待清空的是表名字符串
+            self.cursor.execute(TRUNCATE_TB_SQL.format(table_name))
+        else:
+            # 传入的等待清空的是表名列表
+            for table in table_name:
+                self.cursor.execute(TRUNCATE_TB_SQL.format(table))
+

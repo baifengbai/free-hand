@@ -1,7 +1,11 @@
+from conf import setting
+DATABASE = setting.DATABASES['DBNAME']
+
 """
     全局使用的默认变量
         如 内置的表对应的操作SQL语句
 """
+TRUNCATE_TB_SQL = "TRUNCATE `{}`.`{}`;".format(DATABASE,'{}')
 
 #######################
 #  重用selenium引擎    #

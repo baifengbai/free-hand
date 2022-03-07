@@ -57,4 +57,7 @@ def run(setting):
             paragraph[0])
         postedDBOP.insertData2DB(sql)
     globalTools.finishTask()
+    return {
+        'table': setting['tableName']
+    }
 
