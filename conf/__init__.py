@@ -2,14 +2,11 @@
     设置和配置文件加载，模仿版本为3.2.10的 django.conf 读取配置的方式
 """
 import importlib
-import os
 import time
-import traceback
-import warnings
 from pathlib import Path
-
 from .import global_settings
 from utils.functional import LazyObject, empty
+from core.exceptions import ImproperlyConfigured
 
 ###################
 #  这里测试 可删    #
@@ -112,38 +109,11 @@ class LazySettings(LazyObject):
             setattr(holder, name, value)
         self._wrapped = holder
 
-    # @staticmethod
-    # def _add_script_prefix(value):
-    #     """
-    #     Add SCRIPT_NAME prefix to relative paths.
-    #
-    #     Useful when the app is being served at a subpath and manually prefixing
-    #     subpath to STATIC_URL and MEDIA_URL in settings is inconvenient.
-    #     """
-    #     # Don't apply prefix to absolute paths and URLs.
-    #     if value.startswith(('http://', 'https://', '/')):
-    #         return value
-    #     from django.urls import get_script_prefix
-    #     return '%s%s' % (get_script_prefix(), value)
-
     @property
     def configured(self):
         """Return True if the settings have already been configured."""
         return self._wrapped is not empty
 
-    # @property
-    # def PASSWORD_RESET_TIMEOUT_DAYS(self):
-    #     stack = traceback.extract_stack()
-    #     # Show a warning if the setting is used outside of Django.
-    #     # Stack index: -1 this line, -2 the caller.
-    #     filename, _, _, _ = stack[-2]
-    #     if not filename.startswith(os.path.dirname(django.__file__)):
-    #         warnings.warn(
-    #             PASSWORD_RESET_TIMEOUT_DAYS_DEPRECATED_MSG,
-    #             RemovedInDjango40Warning,
-    #             stacklevel=2,
-    #         )
-    #     return self.__getattr__('PASSWORD_RESET_TIMEOUT_DAYS')
 
 
 class Settings:
