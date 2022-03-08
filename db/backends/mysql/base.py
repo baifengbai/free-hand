@@ -1,7 +1,14 @@
 from conf import setting
 import pymysql
 
-class BaseDatabase:
+class Database_Control:
+    """集成操作方法"""
+    def _create_database(self, db_name):
+        pass
+
+
+
+class BaseDatabase(Database_Control):
     """数据库连接基类 默认连接配置文件中的数据库"""
     def __init__(self):
         self.connection = None
@@ -19,7 +26,6 @@ class BaseDatabase:
         print('数据库参数改动了,重新连接数据库')
         self._cur_conn_params = dic
         self.connect(self._cur_conn_params)
-        self.cursor = self.get_cursor()
         pass
 
     def get_connection_params(self):
@@ -35,17 +41,22 @@ class BaseDatabase:
 
     def get_new_connection(self, params):
         """创建自定义的数据库连接"""
+        if('database' in params.keys()):
+            database = params['database']
+        else:
+            database = ''
         conn = pymysql.connect(
             host=params['host'],
             user=params['user'],
             passwd=params['password'],
-            db=params['database'],
+            db=database,
             autocommit=True
         )
         return conn
 
     def connect(self, _cur_conn_params):
         self.connection = self.get_new_connection(_cur_conn_params)
+        self.cursor = self.get_cursor()
 
     def get_conn(self):
         if(self.connection):
@@ -58,6 +69,24 @@ class BaseDatabase:
             return self.connection.cursor()
         else:
             assert '数据库未连接，清调用connect方法连接数据库'
+
+    def check_ifsame_database(self, database, change_db:bool = True):
+        """判断当前连接的数据库是否是指定数据库
+        :param database 指定数据库名
+        :param change_db 若为True 则切换到指定数据库 否则只输出判断结果
+            默认为True
+        """
+        if(not change_db):
+            if (database != self.cur_conn_params['database']):
+                return False
+            else:
+                return True
+        else:
+            if (database != self.cur_conn_params['database']):
+                self.cur_conn_params['database'] = database
+                return self.cur_conn_params['database']
+            else:
+                return True
 
     def close_db(self):
         try:
@@ -73,3 +102,4 @@ class BaseDatabase:
         except Exception as e:
             print("数据库 ", self.databaseName, " 关闭失败")
             return -1
+

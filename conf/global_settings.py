@@ -94,7 +94,7 @@ DATABASES = {
     'PASSWORD':'root',
     'HOST': 'localhost',
     'PORT': '3306',
-    'DBNAME': 'data_usable_database',
+    'DBNAME': 'database',
 }
 
 # 内置统一的资源表
