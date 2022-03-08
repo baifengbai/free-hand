@@ -65,6 +65,7 @@ CREATE_DEFAULT_TABLE_SITE_INFO = """
 CREATE_DEFAULT_TABLE_COMMENT = """
     CREATE TABLE `tb_comment` (
       `id` INT NOT NULL AUTO_INCREMENT,
+      `ori_url` longtext COMMENT '评论来源链接',
       `comment` LONGTEXT NULL,
       `publish_time` DATETIME(6) NULL,
       `crawl_time` DATETIME(6) NULL COMMENT '评论爬取下来的时间',
@@ -77,6 +78,7 @@ CREATE_DEFAULT_TABLE_COMMENT = """
 CREATE_DEFAULT_TABLE_KEYPARAGRAPH = """
     CREATE TABLE `tb_key_paragraph` (
       `id` INT NOT NULL AUTO_INCREMENT,
+      `ori_url` longtext COMMENT '段落来源链接',
       `tag_origin` VARCHAR(45) NULL COMMENT '段落原标签',
       `paragraph` LONGTEXT NULL,
       `publish_time` DATETIME(6) NULL COMMENT '段落发布时间',
@@ -116,13 +118,14 @@ CREATE_DEFAULT_TABLE_ARTICLE = """
 
 # 视频信息
 CREATE_DEFAULT_TABLE_VIDEO = """
-    CREATE TABLE `tb_video_info` (
+    CREATE TABLE `tb_video` (
       `id` int NOT NULL AUTO_INCREMENT,
       `ori_uri` longtext  COMMENT '这个是可以直接下载的视频链接',
       `title` longtext,
       `publish_time` DATETIME(6) NULL COMMENT '该视频的发布时间',
       `crawl_time` DATETIME(6) NULL COMMENT '该视频爬取下来时间',
       `local_path` VARCHAR(255) COMMENT '该视频的在本地的位置',
+      `site` VARCHAR(255) COMMENT '视频来源站点',
       `duration` varchar(45) DEFAULT NULL,
       PRIMARY KEY (`id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='视频相关信息'
@@ -161,12 +164,12 @@ SELENIUM_REUSE_SQL_UPDATE = "UPDATE `data_usable_database`.`tb_selenium_info` SE
 
 
 
-
-
 #######################
 #   站点信息操作        #
 #  tb_site_info      #
 #####################
+
+
 
 
 
